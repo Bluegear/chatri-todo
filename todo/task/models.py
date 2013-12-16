@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 
 class Task(models.Model):
     
-    choices = (('N', 'None'), ('I', 'Important'), ('C', 'Critical'))
+    choices = ((0, 'None'), (1, 'Important'), (2, 'Critical'))
     
     name = models.CharField(max_length=2000)
     completed = models.BooleanField(default=False)
     due_date = models.DateTimeField(blank=True, null=True)
-    priority = models.CharField(max_length=1, choices=choices, default='N')
+    priority = models.IntegerField(default=0, choices=choices)
     created_by = models.ForeignKey(User)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now_add=True, auto_now=True, db_index=True)
