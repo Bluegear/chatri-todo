@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Task.created_by'
         db.add_column(u'task_task', 'created_by',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default='', to=orm['auth.User']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['auth.User']),
                       keep_default=False)
 
 
