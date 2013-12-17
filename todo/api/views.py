@@ -38,26 +38,74 @@ def api_list(request):
 @api_view(['GET'])
 def tasks(request):
     """<h3>Get task list</h3>
-    <h4>Parameters</h4>
+    <h4>Headers</h4>
     <ul>
     <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
     </ul>
+    <h4>Parameters</h4>
+    <ul>
+    <li>sorted_by (Optional default=due_date; available values: due_date, priority)</li>
+    </ul>
     """
     try:
-        tasks = Task.objects.filter(created_by=request.user).order_by('due_date', 'priority', 'id')
+        tasks = Task.objects.filter(created_by=request.user).extra(select={
+                                                                           'due_date_is_null': 'due_date IS NULL',
+                                                                           })
+        
+        try:
+            sorted_by = request.QUERY_PARAMS['sorted_by']
+            
+            if sorted_by == 'priority':
+                tasks = tasks.order_by('-priority', 'due_date_is_null', 'due_date', 'id')
+            else:
+                tasks = tasks.order_by('due_date_is_null', 'due_date', '-priority', 'id')
+        except:
+            tasks = tasks.order_by('due_date_is_null', 'due_date', '-priority', 'id')
         
         task_dict = []
         
         for task in tasks:
-            context = {
-                       "id": task.id,
-                       "name": u"%s" % task.name,
-                       "completed": task.completed,
-                       "due_date": task.due_date,
-                       "priority": task.priority
-                       }
+            context = task.to_dict()
             task_dict.append(context)
         
         return Response({"tasks": task_dict})
+    except MultiValueDictKeyError:
+        return Response({"message": "Missing parameter"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def add_task(request):
+    """<h3>Add task.</h3>
+    <h4>Headers</h4>
+    <ul>
+    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    </ul>
+    <h4>Parameters</h4>
+    <ul>
+    <li>name (Required)</li>
+    <li>completed (Optional default=False)</li>
+    <li>due_date (Optional Date in `DDMMYYYY` for)</li>
+    <li>priority (Optional default=0; 0 for None, 1 for Important, 2 for Critical)</li>
+    </ul>
+    """
+    try:
+        task = Task()
+        task.name = request.DATA['name']
+        task.created_by = request.user
+        try:
+            task.completed = request.DATA['completed']
+        except:
+            pass
+        try:
+            task.due_date = request.DATA['due_date']
+        except:
+            pass
+        try:
+            task.priority = request.DATA['priority']
+        except:
+            pass
+        
+        id = task.save()
+        
+        return Response({"message": "New task successfully added.", "task": task.to_dict()})
     except MultiValueDictKeyError:
         return Response({"message": "Missing parameter"}, status=status.HTTP_400_BAD_REQUEST)

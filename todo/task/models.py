@@ -17,3 +17,12 @@ class Task(models.Model):
     
     def __unicode__(self):
         return '%s' % self.name
+    
+    def to_dict(self):
+        return {
+                "id": self.id,
+                "name": u'%s' % self.name,
+                "completed": self.completed,
+                "due_date": self.due_date,
+                "priority": self.priority
+                }
