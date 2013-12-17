@@ -82,27 +82,12 @@ def add_task(request):
     <h4>Parameters</h4>
     <ul>
     <li>name (Required)</li>
-    <li>completed (Optional default=False)</li>
-    <li>due_date (Optional Date in `DDMMYYYY` for)</li>
-    <li>priority (Optional default=0; 0 for None, 1 for Important, 2 for Critical)</li>
     </ul>
     """
     try:
         task = Task()
         task.name = request.DATA['name']
         task.created_by = request.user
-        try:
-            task.completed = request.DATA['completed']
-        except:
-            pass
-        try:
-            task.due_date = request.DATA['due_date']
-        except:
-            pass
-        try:
-            task.priority = request.DATA['priority']
-        except:
-            pass
         
         id = task.save()
         
