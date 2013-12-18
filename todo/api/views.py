@@ -116,6 +116,10 @@ def edit_task(request):
         task = Task.objects.get(id=request.DATA['id'])
         
         # Validate input
+        
+        if request.user != task.created_by:
+            return Response({"message": "This task is not belong to you."}, status=status.HTTP_401_UNAUTHORIZED)
+        
         try:
             name = request.DATA['name']
             
