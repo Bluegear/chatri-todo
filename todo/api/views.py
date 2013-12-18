@@ -88,6 +88,12 @@ def add_task(request):
     try:
         task = Task()
         task.name = request.DATA['name']
+        
+        if len(task.name) > 2000:
+            return Response({"message": "Invalid task's name. Name must not longer than 2000 characters.", "error_field": "name"}, status=status.HTTP_400_BAD_REQUEST)
+        elif len(task.name) == 0:
+            raise MultiValueDictKeyError
+            
         task.created_by = request.user
         
         task.save()
@@ -95,10 +101,33 @@ def add_task(request):
         return Response({"message": "New task successfully added.", "task": task.to_dict()})
     except MultiValueDictKeyError:
         return Response({"message": "Missing parameter"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def delete_task(request):
+    """<h3>Delete task.</h3>
+    <h4>Headers</h4>
+    <ul>
+    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    </ul>
+    <h4>Parameters</h4>
+    <ul>
+    <li>id (Required)</li>
+    </ul>
+    """
+    try:
+        task = Task.objects.get(id=request.DATA['id'])
+        
+        task.delete()
+        
+        return Response({"message": "Task deleted."})
+    except (ValueError, MultiValueDictKeyError):
+        return Response({"message": "Missing parameter"}, status=status.HTTP_400_BAD_REQUEST)
+    except Task.DoesNotExist:
+        return Response({"message": "Task not found"}, status=status.HTTP_404_NOT_FOUND)
     
 @api_view(['POST'])
 def edit_task(request):
-    """<h3>Add task.</h3>
+    """<h3>Edit task.</h3>
     <h4>Headers</h4>
     <ul>
     <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
@@ -127,7 +156,6 @@ def edit_task(request):
                 return Response({"message": "Task's name must not longer than 2000 characters.", "error_field": "name"}, status=status.HTTP_400_BAD_REQUEST)
             elif len(name) > 0:
                 task.name = name
-            
         except:
             pass
         
