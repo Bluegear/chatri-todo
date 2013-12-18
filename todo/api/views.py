@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.utils.datastructures import MultiValueDictKeyError
 from todo.api.urls import urlpatterns
 from todo.task.models import *
+from datetime import datetime
 
 # Create your views here.
 @api_view(['GET'])
@@ -89,8 +90,72 @@ def add_task(request):
         task.name = request.DATA['name']
         task.created_by = request.user
         
-        id = task.save()
+        task.save()
         
         return Response({"message": "New task successfully added.", "task": task.to_dict()})
     except MultiValueDictKeyError:
         return Response({"message": "Missing parameter"}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+def edit_task(request):
+    """<h3>Add task.</h3>
+    <h4>Headers</h4>
+    <ul>
+    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    </ul>
+    <h4>Parameters</h4>
+    <ul>
+    <li>id (Required)</li>
+    <li>name (Optional)</li>
+    <li>completed (Optional default=False)</li>
+    <li>due_date (Optional Date in `yyyy-mm-dd` format)</li>
+    <li>priority (Optional default=0; 0 for None, 1 for Important, 2 for Critical)</li>
+    </ul>
+    """
+    try:
+        task = Task.objects.get(id=request.DATA['id'])
+        
+        # Validate input
+        try:
+            task.name = request.DATA['name']
+        except:
+            pass
+        
+        try:
+            task.completed = request.DATA['completed'].lower()
+            
+            if task.completed == "true" or task.completed == "1":
+                task.completed = True
+            elif task.completed == "false" or task.completed == "0":
+                task.completed = False
+            else:
+                return Response({"message": "This field must be boolean (True, False).", "error_field": "completed"}, status=status.HTTP_400_BAD_REQUEST)
+        except MultiValueDictKeyError:
+            pass
+        
+        try:
+            task.due_date = request.DATA['due_date']
+            datetime.strptime(task.due_date, 'YYYY-MM-DD')
+            
+        except MultiValueDictKeyError:
+            pass
+        except:
+            return Response({"message": "Please enter date in YYYY-MM-DD format.", "error_field":"due_date"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            task.priority = int(request.DATA['priority'])
+            
+            if task.priority < 0 or task.priority > 2:
+                raise ValueError
+        except MultiValueDictKeyError:
+            pass
+        except ValueError:
+            return Response({"message": "Priority must be %s." % Task.choices.__str__(), "error_field": "priority"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        task.save()
+        
+        return Response({"message": "Task updated", "task": task.to_dict()})
+    except MultiValueDictKeyError:
+        return Response({"message": "Missing parameter"}, status=status.HTTP_400_BAD_REQUEST)
+    except Task.DoesNotExist:
+        return Response({"message": "Task not found"}, status=status.HTTP_404_NOT_FOUND)

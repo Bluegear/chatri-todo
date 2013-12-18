@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^list/', 'todo.api.views.api_list'),
     url(r'^tasks/', 'todo.api.views.tasks'),
     url(r'^task/add', 'todo.api.views.add_task'),
+    url(r'^task/edit', 'todo.api.views.edit_task'),
 )
