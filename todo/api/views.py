@@ -117,7 +117,13 @@ def edit_task(request):
         
         # Validate input
         try:
-            task.name = request.DATA['name']
+            name = request.DATA['name']
+            
+            if len(name) > 2000:
+                return Response({"message": "Task's name must not longer than 2000 characters.", "error_field": "name"}, status=status.HTTP_400_BAD_REQUEST)
+            elif len(name) > 0:
+                task.name = name
+            
         except:
             pass
         
