@@ -135,7 +135,7 @@ def edit_task(request):
         
         try:
             task.due_date = request.DATA['due_date']
-            datetime.strptime(task.due_date, 'YYYY-MM-DD')
+            datetime.strptime(task.due_date, '%Y-%m-%d')
             
         except MultiValueDictKeyError:
             pass
