@@ -1,0 +1,73 @@
+.entry {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.sort-by{
+	float: right;
+}
+
+.completed:hover {
+	cursor: pointer;
+}
+
+.red {
+	color: red;
+}
+
+.red:hover {
+	color: rgba(51, 51, 51, 0.5);
+}
+
+.black:hover {
+	color: red;
+}
+
+.white {
+	color: white;
+}
+
+.white:hover {
+	color: black;
+}
+
+.task-predefined {
+	color: gray;
+	font-style: italic;
+}
+
+.due_date {
+	float: right;
+	position: relative;
+	right: 20px;
+	cursor: pointer;
+}
+
+.priority {
+	margin: 0 5px 0 10px;
+}
+
+.fa-trash-o {
+	float: right;
+	position: absolute;
+	top: 14px;
+	right: 15px;
+	color: rgba(51, 51, 51, 0.5);
+}
+
+.fa-trash-o:hover {
+	color: #333;
+	cursor: pointer;
+}
+
+.priority:hover {
+	cursor: pointer;
+}
+
+.fa-calendar {
+	margin-right: 3px;
+	color: rgba(51, 51, 51, 0.5);
+}
+
+.fa-calendar:hover {
+	color: #333;
+}

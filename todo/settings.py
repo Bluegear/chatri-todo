@@ -39,7 +39,8 @@ INSTALLED_APPS = (
     'south',
     'rest_framework',
     'todo.api',
-    'todo.task'
+    'todo.task',
+    'todo.web',
 )
 
 MIDDLEWARE_CLASSES = (
