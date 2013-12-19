@@ -117,11 +117,9 @@ App.controller('TaskListCtrl', function($scope, $http) {
 
 			if (i != -1) {
 				$scope.tasks.splice(i, 1);
+				formatTask(task);
+				$scope.tasks.push(task);
 			}
-			
-			formatTask(task);
-			
-			$scope.tasks.push(task);
 		});
 	};
 
