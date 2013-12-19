@@ -8,6 +8,7 @@
 		<link href="{% static "web/lib/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
 		<link href="{% static "web/lib/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
 		<link href="{% static "web/css/main.css" %}" rel="stylesheet">
+		<link href="{% static "web/css/animations.css" %}" rel="stylesheet">
 
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,62 +18,19 @@
 		<![endif]-->
 	</head>
 	<body>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					&nbsp;
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8">
-					<div class="input-group">
-						<span class="input-group-addon">+</span>
-						<input type="text" class="form-control" placeholder="Add new task...">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				&nbsp;
-			</div>
-			<div class="row">
-				<div class="col-md-8">
-					<div class="list-group">
-						<div class="list-group-item">
-							<span>&nbsp;</span>
-							<span class="sort-by">&nbsp;
-								<div class="btn-group">
-									<button type="button" class="btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-										Sort by <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li>
-											<a href="#">Due date</a>
-										</li>
-										<li>
-											<a href="#">Priority</a>
-										</li>
-									</ul>
-								</div></span>
-						</div>
-						<div class="list-group-item">
-							<span> <i class="completed fa fa-check white"></i> </span><i class="priority fa fa-exclamation-circle black"></i><span class="task">Task 2</span><span class="due_date">20.12.2013</span><i class="fa fa-trash-o"></i>
-						</div>
-						<div class="list-group-item">
-							<span> <i class="completed fa fa-check white"></i> </span><i class="priority fa fa-exclamation-circle red"></i><span class="task">Task 3 </span><span class="due_date"><i class="fa fa-calendar"></i></span><i class="fa fa-trash-o"></i>
-						</div>
-						<div class="list-group-item">
-							<span> <i class="completed fa fa-check white"></i> </span><i class="priority fa fa-exclamation-circle white"></i><span class="task">Task 4 </span><span class="due_date"><i class="fa fa-calendar"></i></span><i class="fa fa-trash-o"></i>
-						</div>
-						<div class="list-group-item">
-							<span> <i class="completed fa fa-check white"></i> </span><i class="priority fa fa-exclamation-circle white"></i><span class="task">Task 5 </span><span class="due_date"><i class="fa fa-calendar"></i></span><i class="fa fa-trash-o"></i>
-						</div>
-					</div>
-				</div>
+		<div ng-app="App">
+			<div ng-controller="Ctrl">
+				<div ng-include src="template"></div>
 			</div>
 		</div>
+		{% csrf_token %}
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static "web/lib/jquery.min.js" %}"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="{% static "web/lib/bootstrap/js/bootstrap.min.js" %}"></script>
+		<script src="{% static "web/lib/angular/angular.min.js" %}"></script>
+		<script src="{% static "web/lib/angular/angular-resource.min.js" %}"></script>
+		<!--script src="{% static "web/lib/angular/angular-animate.min.js" %}"></script-->
+		<script src="{% static "web/angular/js/controller.js" %}"></script>
 	</body>
 </html>

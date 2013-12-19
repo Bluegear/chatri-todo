@@ -160,11 +160,16 @@ def edit_task(request):
             pass
         
         try:
-            task.completed = request.DATA['completed'].lower()
+            task.completed = request.DATA['completed']
             
-            if task.completed == "true" or task.completed == "1":
+            try:
+                task.completed = task.completed.lower()
+            except:
+                pass
+            
+            if task.completed == True or task.completed == "true" or task.completed == "1":
                 task.completed = True
-            elif task.completed == "false" or task.completed == "0":
+            elif task.completed == False or task.completed == "false" or task.completed == "0":
                 task.completed = False
             else:
                 return Response({"message": "This field must be boolean (True, False).", "error_field": "completed"}, status=status.HTTP_400_BAD_REQUEST)
@@ -174,7 +179,6 @@ def edit_task(request):
         try:
             task.due_date = request.DATA['due_date']
             datetime.strptime(task.due_date, '%Y-%m-%d')
-            
         except MultiValueDictKeyError:
             pass
         except:

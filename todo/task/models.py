@@ -19,10 +19,16 @@ class Task(models.Model):
         return '%s' % self.name
     
     def to_dict(self):
+        
+        due_date = ''
+        
+        if self.due_date:
+            due_date = str(self.due_date).split(' ')[0]
+        
         return {
                 "id": self.id,
                 "name": u'%s' % self.name,
                 "completed": self.completed,
-                "due_date": self.due_date,
+                "due_date": due_date,
                 "priority": self.priority
                 }

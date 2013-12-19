@@ -1,0 +1,46 @@
+<div class="container" ng-controller="TaskListCtrl">
+	<div class="row">
+		<div class="col-md-12">
+			&nbsp;
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="taskName" placeholder="Add new task...">
+				<span class="input-group-addon clickable" ng-click="newTask(taskName)"><i class="fa fa-plus"></i></span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		&nbsp;
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="list-group">
+				<div class="list-group-item">
+					<span>&nbsp;</span>
+					<span class="sort-by">&nbsp;
+						<div class="btn-group">
+							<button type="button" class="btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+								Sort by <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<span class="dropdown-clickable" ng-click="orderByDueDate()">Due date</span>
+								</li>
+								<li>
+									<span class="dropdown-clickable" ng-click="orderByPriority()">Priority</span>
+								</li>
+							</ul>
+						</div></span>
+				</div>
+				<div class="list-group-item task-listing" ng-repeat="task in tasks | orderBy:orderProp">
+					<span> <i class="completed fa fa-check {{task.completedClass}}" ng-click="toggleCompleted(task)"></i> </span>
+					<i class="priority fa fa-exclamation-circle {{task.priorityClass}}" ng-click="togglePriority(task)"></i>
+					<span class="task">{{task.name}}</span><span class="due_date">{{task.due_dateFormat}}<i class="fa fa-calendar {{task.calendarClass}}"></i></span><i class="fa fa-trash-o" ng-click=deleteTask(task)></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
