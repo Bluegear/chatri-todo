@@ -115,7 +115,7 @@
 .fa-calendar, .fa-trash-o {
 	color:rgba(51, 51, 51, 0.5);
 }
-.fa:hover {
+.fa-calendar:hover, .fa-trash-o:hover {
 	color:#333;
 	cursor:pointer;
 }

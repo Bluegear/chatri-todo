@@ -223,8 +223,6 @@ App.directive('datepicker', function() {
 					clearBtn : true,
 					todayHighlight : true,
 					orientation: "right top"
-				}).on('changeDate', function(e){
-					console.log('dd');
 				});
 			});
 		}
