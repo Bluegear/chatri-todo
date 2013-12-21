@@ -1,7 +1,10 @@
-var App = angular.module('App', ['ngResource'/*, 'ngAnimate'*/]);
+var App = angular.module('App', ['ngResource']);
+
 var csrfmiddlewaretoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 formatTask = function(task) {
+
+	task.displayName = task.name;
 
 	if (task.completed == true) {
 		task.completedClass = "done";
@@ -17,14 +20,17 @@ formatTask = function(task) {
 		task.priorityClass = "white";
 	}
 
-	if (!task.due_date) {
-		task.calendarClass = "show";
-		task.due_dateRank = "9999-99-99";
+	if (task.due_date) {
+		// Reconstruct date from yyyy-MM-dd to MM.dd.yyyy
+		var parts = task.due_date.split('-');
+		task.displayDueDate = parts[1] + "." + parts[2] + "." + parts[0];
+		task.dueDateVisibleClass = "show";
+		task.calendarVisibleClass = "hide";
 	} else {
-		task.due_dateRank = task.due_date;
-		parts = task.due_date.split('-');
-		task.due_dateFormat = parts[2] + "." + parts[1] + "." + parts[0];
-		task.calendarClass = "hide";
+		task.due_date = "";
+		task.displayDueDate = "";
+		task.dueDateVisibleClass = "hide";
+		task.calendarVisibleClass = "show";
 	}
 
 	return task;
@@ -36,24 +42,33 @@ function Ctrl($scope) {
 
 App.controller('TaskListCtrl', function($scope, $http) {
 
-	// Load tasks
-	$http.get('api/tasks').success(function(data) {
-		$scope.tasks = data.tasks;
-		$scope.tasks.forEach(function(task) {
-			formatTask(task);
+	// Sort by
+	$scope.loadTasksOrderByDueDate = function() {
+		$http.get('api/tasks').success(function(data) {
+			$scope.tasks = data.tasks;
+			$scope.tasks.forEach(function(task) {
+				formatTask(task);
+			});
 		});
 
-		$scope.orderProp = ['due_dateRank', '-priority', 'id'];
-	});
-
-	// Sort by
-	$scope.orderByDueDate = function() {
-		$scope.orderProp = ['due_dateRank', '-priority', 'id'];
+		$scope.orderByPriorityClass = "text-muted";
+		$scope.orderByDueDateClass = "text-primary";
 	};
 
-	$scope.orderByPriority = function() {
-		$scope.orderProp = ['-priority', 'due_dateRank', 'id'];
+	$scope.loadTasksOrderByPriority = function() {
+		$http.get('api/tasks?sorted_by=priority').success(function(data) {
+			$scope.tasks = data.tasks;
+			$scope.tasks.forEach(function(task) {
+				formatTask(task);
+			});
+		});
+
+		$scope.orderByPriorityClass = "text-primary";
+		$scope.orderByDueDateClass = "text-muted";
 	};
+
+	// Load tasks
+	$scope.loadTasksOrderByDueDate();
 
 	// Add task.
 	$scope.newTask = function(taskName) {
@@ -69,9 +84,17 @@ App.controller('TaskListCtrl', function($scope, $http) {
 		}).success(function(data) {
 			var newTask = data.task;
 			newTask = formatTask(newTask);
-			$scope.tasks.push(newTask);
+			$scope.tasks.unshift(newTask);
 			$scope.taskName = '';
 		});
+	};
+
+	$scope.newTaskEnter = function(event, taskName) {
+
+		if (event.which != 13)
+			return false;
+
+		$scope.newTask(taskName);
 	};
 
 	// Delete task
@@ -109,16 +132,14 @@ App.controller('TaskListCtrl', function($scope, $http) {
 		$http.post('/api/task/edit', $.param(data), {
 			"headers" : {
 				"X-CSRFToken" : csrfmiddlewaretoken,
-				'Content-Type': 'application/x-www-form-urlencoded'
+				'Content-Type' : 'application/x-www-form-urlencoded'
 			}
 		}).success(function(data) {
 			// Swap task in array;
 			var i = $scope.tasks.indexOf(oldTask);
 
 			if (i != -1) {
-				$scope.tasks.splice(i, 1);
-				formatTask(task);
-				$scope.tasks.push(task);
+				$scope.tasks[i] = angular.copy(formatTask(task));
 			}
 		});
 	};
@@ -138,7 +159,7 @@ App.controller('TaskListCtrl', function($scope, $http) {
 
 		$scope.editTask(task, newTask);
 	};
-	
+
 	// Toggle completed
 	$scope.toggleCompleted = function(task) {
 
@@ -152,4 +173,81 @@ App.controller('TaskListCtrl', function($scope, $http) {
 
 		$scope.editTask(task, newTask);
 	};
+
+	// Edit task name
+	$scope.editTaskName = function(task) {
+		if (task.displayName != "" && task.displayName != task.name) {
+			var newTask = angular.copy(task);
+			newTask.name = task.displayName;
+			$scope.editTask(task, newTask);
+		} else {
+			task.displayName = task.name;
+		}
+	};
+
+	$scope.editTaskNameKeyPress = function(event, task) {
+
+		if (event.which != 13)
+			return false;
+
+		$scope.editTaskName(task);
+	};
+
+	// Edit due date
+	$scope.editDueDate = function(task) {
+
+		// Reconstruct date from MM.dd.yyyy to yyyy-MM-dd
+		var newDate = "";
+		if (task.displayDueDate != "") {
+			var parts = task.displayDueDate.split('.');
+			newDate = parts[2] + '-' + parts[0] + '-' + parts[1];
+		}
+
+		if (newDate != task.due_date) {
+			var newTask = angular.copy(task);
+			newTask.due_date = newDate;
+			$scope.editTask(task, newTask);
+		}
+	};
 });
+
+App.directive('datepicker', function() {
+	return {
+		restrict : 'A',
+		require : 'ngModel',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			$(function() {
+				element.datepicker({
+					format : "mm.dd.yyyy",
+					autoclose : true,
+					clearBtn : true,
+					todayHighlight : true,
+					orientation: "right top"
+				}).on('changeDate', function(e){
+					console.log('dd');
+				});
+			});
+		}
+	};
+});
+
+/*
+ App.directive('datepicker', function() {
+ return {
+ restrict : 'A',
+ require : 'ngModel',
+ link : function(scope, element, attrs, ngModelCtrl) {
+ $(function() {
+ element.datepicker({
+ dateFormat : 'mm.dd.yy',
+ showOn: "both",
+ buttonText: "<i class='fa fa-calendar'></i>",
+ onSelect : function(date) {
+ ngModelCtrl.$setViewValue(date);
+ scope.$apply();
+ }
+ });
+ });
+ }
+ };
+ });*/

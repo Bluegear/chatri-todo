@@ -180,7 +180,7 @@ def edit_task(request):
             task.due_date = request.DATA['due_date']
             datetime.strptime(task.due_date, '%Y-%m-%d')
         except MultiValueDictKeyError:
-            pass
+            task.due_date = None;
         except:
             return Response({"message": "Please enter date in YYYY-MM-DD format.", "error_field":"due_date"}, status=status.HTTP_400_BAD_REQUEST)
         

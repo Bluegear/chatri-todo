@@ -6,10 +6,12 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="taskName" placeholder="Add new task...">
-				<span class="input-group-addon clickable" ng-click="newTask(taskName)"><i class="fa fa-plus"></i></span>
-			</div>
+			<form name="addTaskForm">
+				<div class="input-group">
+					<span class="input-group-addon clickable" ng-click="newTask(taskName)"><i class="fa fa-plus"></i></span>
+					<input type="text" class="form-control" maxlength="42" ng-model="taskName" placeholder="Add new task..." ng-keypress="newTaskEnter($event, taskName)">
+				</div>
+			</form>
 		</div>
 	</div>
 	<div class="row">
@@ -18,27 +20,22 @@
 	<div class="row">
 		<div class="col-md-8">
 			<div class="list-group">
-				<div class="list-group-item">
-					<span>&nbsp;</span>
-					<span class="sort-by">&nbsp;
-						<div class="btn-group">
-							<button type="button" class="btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-								Sort by <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<li>
-									<span class="dropdown-clickable" ng-click="orderByDueDate()">Due date</span>
-								</li>
-								<li>
-									<span class="dropdown-clickable" ng-click="orderByPriority()">Priority</span>
-								</li>
-							</ul>
-						</div></span>
+				<div class="list-group-item sort-by">
+					<span ng-click="loadTasksOrderByPriority()"  class="{{orderByPriorityClass}}">Priority</span>
+					<span ng-click="loadTasksOrderByDueDate()" class="{{orderByDueDateClass}}">Due date</span>
 				</div>
-				<div class="list-group-item task-listing" ng-repeat="task in tasks | orderBy:orderProp">
-					<span> <i class="completed fa fa-check {{task.completedClass}}" ng-click="toggleCompleted(task)"></i> </span>
+				<div class="list-group-item task-listing" ng-repeat="task in tasks">
+					<i class="completed fa fa-check {{task.completedClass}}" ng-click="toggleCompleted(task)"></i>
 					<i class="priority fa fa-exclamation-circle {{task.priorityClass}}" ng-click="togglePriority(task)"></i>
-					<span class="task">{{task.name}}</span><span class="due_date">{{task.due_dateFormat}}<i class="fa fa-calendar {{task.calendarClass}}"></i></span><i class="fa fa-trash-o" ng-click=deleteTask(task)></i>
+					<input type="text" maxlength="42" class="task-input" ng-model="task.displayName" ng-blur="editTaskName(task)" ng-keypress="editTaskNameKeyPress($event, task)"/>
+					<!-- datepicker on-change="editDueDate(task)" class="due_date {{task.dueDateVisibleClass}}" icon-class="fa fa-calendar" ng-model="task.displayDueDate" disable-timepicker="true" label-format='MM.dd.yyyy'/-->
+					<!-- input type="text" ng-model="task.displayDueDate" data-date-format="mm.dd.yyyy" bs-datepicker -->
+					<!--input class="date-input" type="text" ng-change="editDueDate(task)" ng-model="task.displayDueDate" datepicker /-->
+					<div class="input-append date" datepicker ng-model="task.displayDueDate">
+						<input type="text" class="date-input {{task.dueDateVisibleClass}}" ng-change="editDueDate(task)" ng-model="task.displayDueDate">
+						<span class="add-on"><i class="fa fa-calendar {{task.calendarVisibleClass}}"></i></span>
+					</div>
+					<i class="fa fa-trash-o" ng-click=deleteTask(task)></i>
 				</div>
 			</div>
 		</div>

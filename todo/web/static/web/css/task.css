@@ -1,0 +1,129 @@
+.entry {
+	border-bottom:1px solid rgba(0,0,0,0.05);
+}
+.task-listing {
+	padding:10px 120px 10px 65px;
+}
+.task {
+	word-wrap:break-word;
+	word-break:break-word;
+}
+.task-input {
+	width:100%;
+	border:none;
+}
+.date-input {
+	border:none;
+	color:#999;
+	font-size:12px;
+	width:65px;
+}
+.date-input:hover {
+	cursor:pointer;
+	color:#3071a9;
+	text-decoration:underline;
+}
+.clickable:hover {
+	cursor:pointer;
+}
+.dropdown-clickable {
+	display:block;
+	padding:3px 20px;
+	clear:both;
+	font-weight:normal;
+	line-height:1.428571429;
+	color:#333;
+	white-space:nowrap;
+}
+.dropdown-clickable:hover {
+	cursor:pointer;
+	background-color:#f5f5f5;
+}
+.sort-by {
+	text-align:right;
+}
+.sort-by span {
+	margin-left:15px;
+}
+.sort-by span:hover {
+	cursor:pointer;
+	color:#3071a9;
+	text-decoration:underline;
+}
+.completed {
+	position:absolute;
+	top:12px;
+	left:16px;
+}
+.completed:hover {
+	cursor:pointer;
+}
+.done {
+	color:black;
+}
+.not-done {
+	color:white;
+}
+.not-done:hover {
+	color:rgba(51, 51, 51, 0.5);
+}
+.red {
+	color:red;
+}
+.red:hover {
+	color:rgba(255, 0, 0, 0.5);
+}
+.black:hover {
+	color:rgba(51, 51, 51, 0.8);
+}
+.white {
+	color:white;
+}
+.white:hover {
+	color:rgba(51, 51, 51, 0.5);
+}
+.task-predefined {
+	color:gray;
+	font-style:italic;
+}
+.due_date {
+	position:absolute;
+	right:40px;
+	top:9px;
+}
+.due_date a {
+	border:none;
+	font-size:13px;
+	color:#999;
+}
+.due_date a:hover {
+	color:#3071a9;
+}
+.hideCalendar i {
+	display:none;
+}
+.priority {
+	position:absolute;
+	top:13px;
+	left:40px;
+}
+.fa-trash-o {
+	position:absolute;
+	top:14px;
+	right:15px;
+}
+.fa-calendar, .fa-trash-o {
+	color:rgba(51, 51, 51, 0.5);
+}
+.fa:hover {
+	color:#333;
+	cursor:pointer;
+}
+.priority:hover {
+	cursor:pointer;
+}
+.input-append.date {
+	position:absolute;
+	top:13px;
+	right:40px;
+}
