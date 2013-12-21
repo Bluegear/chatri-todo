@@ -11,4 +11,7 @@ urlpatterns = patterns('',
     url(r'^$', 'todo.web.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('todo.api.urls')),
+    (r'^accounts/', include('userena.urls')),
+    url(r'^signin/', 'userena.views.signin', {'template_name': 'accounts/signin.html'}, name="signin"),
+    url(r'^signup/', 'userena.views.signup', {'template_name': 'accounts/signup.html', 'success_url': '/'}, name="signup"),
 )

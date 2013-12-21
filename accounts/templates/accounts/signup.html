@@ -1,0 +1,30 @@
+{% extends 'userena/base_userena.html' %}
+{% load staticfiles %}
+{% block meta %}
+<link href="{% static "web/lib/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+<link href="{% static "accounts/css/signin.css" %}" rel="stylesheet">
+{% endblock %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+	<form action="" method="post" class="form-signin" role="form">
+		{% csrf_token %}
+		<h2 class="form-signin-heading">Please sign up</h2>
+		{{ form.non_field_errors }}
+		{% for field in form %}
+		{{ field.errors }}
+		{% endfor %}
+		<input type="text" id="id_username" name="username" class="form-control" placeholder="Username" required autofocus>
+		<input type="text" id="id_email" name="email" class="form-control" placeholder="Email address" required autofocus>
+		<input type="password" id="id_password1" name="password1" class="form-control" placeholder="Password" required>
+		<input type="password" id="id_password2" name="password2" class="form-control" placeholder="Password" required>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">
+			Sign up
+		</button>
+	</form>
+</div>
+{% endblock %}

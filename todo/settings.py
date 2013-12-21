@@ -41,6 +41,10 @@ INSTALLED_APPS = (
     'todo.api',
     'todo.task',
     'todo.web',
+    'accounts',
+    'userena',
+    'guardian',
+    'easy_thumbnails'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,6 +55,25 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+ANONYMOUS_USER_ID = -1
+
+AUTH_PROFILE_MODULE = 'accounts.Profile'
+
+USERENA_SIGNIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'signin/'
+LOGOUT_URL = '/accounts/signout/'
+
+USERENA_ACTIVATION_REQUIRED = False
+USERENA_ACTIVATION_NOTIFY = False
+USERENA_SIGNIN_AFTER_SIGNUP = True
 
 ROOT_URLCONF = 'todo.urls'
 
