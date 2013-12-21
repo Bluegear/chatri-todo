@@ -540,8 +540,8 @@
 							return $(this).css('z-index') !== 'auto';
 						}).first().css('z-index'))+10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
-			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);
-			var width = this.component ? this.component.outerWidth(true) : this.element.outerWidth(false);
+			var height = this.element[0].clientHeight;
+			var width = this.element[0].clientWidth;
 			var left = offset.left,
 				top = offset.top;
 
