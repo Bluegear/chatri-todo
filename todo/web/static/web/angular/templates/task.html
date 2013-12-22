@@ -24,7 +24,7 @@
 					<span ng-click="loadTasksOrderByPriority()"  class="{{orderByPriorityClass}}">Priority</span>
 					<span ng-click="loadTasksOrderByDueDate()" class="{{orderByDueDateClass}}">Due date</span>
 				</div>
-				<div class="list-group-item task-listing" ng-repeat="task in tasks">
+				<div ng-class="{firstinserted: task.id==firstInsertedId}" class="list-group-item task-listing" ng-repeat="task in tasks">
 					<i class="completed fa fa-check {{task.completedClass}}" ng-click="toggleCompleted(task)"></i>
 					<i class="priority fa fa-exclamation-circle {{task.priorityClass}}" ng-click="togglePriority(task)"></i>
 					<input type="text" maxlength="42" class="task-input" ng-model="task.displayName" ng-blur="editTaskName(task)" ng-keypress="editTaskNameKeyPress($event, task)"/>

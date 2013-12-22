@@ -3,6 +3,14 @@
 }
 .task-listing {
 	padding: 10px 120px 10px 65px;
+	padding: 10px 120px 10px 65px;
+	-webkit-transition: all linear 0.5s;
+	-moz-transition: all linear 0.5s;
+	-o-transition: all linear 0.5s;
+	transition: all linear 0.5s;
+}
+.task-listing.firstinserted {
+	background-color: #FFEBCD;
 }
 .task {
 	word-wrap: break-word;

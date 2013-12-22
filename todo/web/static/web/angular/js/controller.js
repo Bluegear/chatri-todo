@@ -86,6 +86,12 @@ App.controller('TaskListCtrl', function($scope, $http) {
 			newTask = formatTask(newTask);
 			$scope.tasks.unshift(newTask);
 			$scope.taskName = '';
+			
+			if ($scope.tasks.length == 1){
+				$scope.firstInsertedId = newTask.id;	
+			} else {
+				$scope.firstInsertedId = "";
+			}
 		});
 	};
 
@@ -111,6 +117,7 @@ App.controller('TaskListCtrl', function($scope, $http) {
 
 			if (i != -1) {
 				$scope.tasks.splice(i, 1);
+				$scope.firstInsertedId = "";
 			}
 		});
 	};
@@ -124,7 +131,7 @@ App.controller('TaskListCtrl', function($scope, $http) {
 			"completed" : task.completed,
 			"priority" : task.priority
 		};
-		
+
 		if (task.due_date != "") {
 			data.due_date = task.due_date;
 		}
@@ -140,6 +147,7 @@ App.controller('TaskListCtrl', function($scope, $http) {
 
 			if (i != -1) {
 				$scope.tasks[i] = angular.copy(formatTask(task));
+				$scope.firstInsertedId = "";
 			}
 		});
 	};
@@ -222,7 +230,7 @@ App.directive('datepicker', function() {
 					autoclose : true,
 					clearBtn : true,
 					todayHighlight : true,
-					orientation: "right top"
+					orientation : "right top"
 				});
 			});
 		}
