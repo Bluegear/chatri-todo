@@ -1,105 +1,105 @@
 .entry {
-	border-bottom:1px solid rgba(0,0,0,0.05);
+	border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 .task-listing {
-	padding:10px 120px 10px 65px;
+	padding: 10px 120px 10px 65px;
 }
 .task {
-	word-wrap:break-word;
-	word-break:break-word;
+	word-wrap: break-word;
+	word-break: break-word;
 }
 .task-input {
-	width:100%;
-	border:none;
+	width: 100%;
+	border: none;
 }
 .date-input {
-	border:none;
-	color:#999;
-	font-size:12px;
-	width:65px;
+	border: none;
+	color: #999;
+	font-size: 12px;
+	width: 65px;
 }
 .date-input:hover {
-	cursor:pointer;
-	color:#3071a9;
-	text-decoration:underline;
+	cursor: pointer;
+	color: #3071a9;
+	text-decoration: underline;
 }
 .sort-by {
-	text-align:right;
+	text-align: right;
 }
 .sort-by span {
-	margin-left:15px;
+	margin-left: 15px;
 }
 .sort-by span:hover {
-	cursor:pointer;
-	color:#3071a9;
-	text-decoration:underline;
+	cursor: pointer;
+	color: #3071a9;
+	text-decoration: underline;
 }
 .completed {
-	position:absolute;
-	top:12px;
-	left:16px;
+	position: absolute;
+	top: 12px;
+	left: 16px;
 }
 .completed:hover {
-	cursor:pointer;
+	cursor: pointer;
 }
 .done {
-	color:black;
+	color: black;
 }
 .not-done {
-	color:white;
+	color: white;
 }
 .not-done:hover {
-	color:rgba(51, 51, 51, 0.5);
+	color: rgba(51, 51, 51, 0.5);
 }
 .red {
-	color:red;
+	color: red;
 }
 .red:hover {
-	color:rgba(255, 0, 0, 0.5);
+	color: rgba(255, 0, 0, 0.5);
 }
 .black:hover {
-	color:rgba(51, 51, 51, 0.8);
+	color: rgba(51, 51, 51, 0.8);
 }
 .white {
-	color:white;
+	color: white;
 }
 .white:hover {
-	color:rgba(51, 51, 51, 0.5);
+	color: rgba(51, 51, 51, 0.5);
 }
 .task-predefined {
-	color:gray;
-	font-style:italic;
+	color: gray;
+	font-style: italic;
 }
 .due_date {
-	position:absolute;
-	right:40px;
-	top:9px;
+	position: absolute;
+	right: 40px;
+	top: 9px;
 }
 .priority {
-	position:absolute;
-	top:13px;
-	left:40px;
+	position: absolute;
+	top: 13px;
+	left: 40px;
 }
 .fa-trash-o {
-	position:absolute;
-	top:14px;
-	right:15px;
+	position: absolute;
+	top: 14px;
+	right: 15px;
 }
 .fa-calendar, .fa-trash-o {
-	color:rgba(51, 51, 51, 0.5);
+	color: rgba(51, 51, 51, 0.5);
 }
 .fa-calendar:hover, .fa-trash-o:hover {
-	color:#333;
-	cursor:pointer;
+	color: #333;
+	cursor: pointer;
 }
 .priority:hover {
-	cursor:pointer;
+	cursor: pointer;
 }
 .input-append.date {
-	position:absolute;
-	top:13px;
-	right:40px;
+	position: absolute;
+	top: 13px;
+	right: 40px;
 }
-.signout-link{
+.signout-link {
 	text-align: right;
 }
