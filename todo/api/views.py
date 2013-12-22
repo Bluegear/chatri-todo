@@ -41,7 +41,7 @@ def tasks(request):
     """<h3>Get task list</h3>
     <h4>Headers</h4>
     <ul>
-    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    <li>Authorization (Required, Basic Auth see <a href="http://tools.ietf.org/html/rfc2617">http://tools.ietf.org/html/rfc2617</a>)</li>
     </ul>
     <h4>Parameters</h4>
     <ul>
@@ -78,7 +78,7 @@ def add_task(request):
     """<h3>Add task.</h3>
     <h4>Headers</h4>
     <ul>
-    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    <li>Authorization (Required, Basic Auth see <a href="http://tools.ietf.org/html/rfc2617">http://tools.ietf.org/html/rfc2617</a>)</li>
     </ul>
     <h4>Parameters</h4>
     <ul>
@@ -107,7 +107,7 @@ def delete_task(request):
     """<h3>Delete task.</h3>
     <h4>Headers</h4>
     <ul>
-    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    <li>Authorization (Required, Basic Auth see <a href="http://tools.ietf.org/html/rfc2617">http://tools.ietf.org/html/rfc2617</a>)</li>
     </ul>
     <h4>Parameters</h4>
     <ul>
@@ -130,14 +130,14 @@ def edit_task(request):
     """<h3>Edit task.</h3>
     <h4>Headers</h4>
     <ul>
-    <li>Authorization (Required, Basic Auth see http://tools.ietf.org/html/rfc2617)</li>
+    <li>Authorization (Required, Basic Auth see <a href="http://tools.ietf.org/html/rfc2617">http://tools.ietf.org/html/rfc2617</a>)</li>
     </ul>
     <h4>Parameters</h4>
     <ul>
     <li>id (Required)</li>
     <li>name (Optional)</li>
     <li>completed (Optional default=False)</li>
-    <li>due_date (Optional Date in `yyyy-mm-dd` format)</li>
+    <li>due_date (Optional Date in `yyyy-mm-dd` format, Set value to `clear` if you want to clear this field.)</li>
     <li>priority (Optional default=0; 0 for None, 1 for Important, 2 for Critical)</li>
     </ul>
     """
@@ -178,9 +178,12 @@ def edit_task(request):
         
         try:
             task.due_date = request.DATA['due_date']
-            datetime.strptime(task.due_date, '%Y-%m-%d')
+            if task.due_date == "clear":
+                task.due_date = None
+            else:
+                datetime.strptime(task.due_date, '%Y-%m-%d')
         except MultiValueDictKeyError:
-            task.due_date = None;
+            pass
         except:
             return Response({"message": "Please enter date in YYYY-MM-DD format.", "error_field":"due_date"}, status=status.HTTP_400_BAD_REQUEST)
         

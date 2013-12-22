@@ -20,7 +20,7 @@ formatTask = function(task) {
 		task.priorityClass = "white";
 	}
 
-	if (task.due_date) {
+	if (task.due_date && task.due_date != "clear") {
 		// Reconstruct date from yyyy-MM-dd to MM.dd.yyyy
 		var parts = task.due_date.split('-');
 		task.displayDueDate = parts[1] + "." + parts[2] + "." + parts[0];
@@ -122,12 +122,9 @@ App.controller('TaskListCtrl', function($scope, $http) {
 			"id" : task.id,
 			"name" : task.name,
 			"completed" : task.completed,
-			"priority" : task.priority
+			"priority" : task.priority,
+			"due_date" : task.due_date
 		};
-
-		if (task.due_date != "") {
-			data.due_date = task.due_date;
-		}
 
 		$http.post('/api/task/edit', $.param(data), {
 			"headers" : {
@@ -197,7 +194,7 @@ App.controller('TaskListCtrl', function($scope, $http) {
 	$scope.editDueDate = function(task) {
 
 		// Reconstruct date from MM.dd.yyyy to yyyy-MM-dd
-		var newDate = "";
+		var newDate = "clear";
 		if (task.displayDueDate != "") {
 			var parts = task.displayDueDate.split('.');
 			newDate = parts[2] + '-' + parts[0] + '-' + parts[1];
