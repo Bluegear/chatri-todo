@@ -23,22 +23,6 @@
 	color:#3071a9;
 	text-decoration:underline;
 }
-.clickable:hover {
-	cursor:pointer;
-}
-.dropdown-clickable {
-	display:block;
-	padding:3px 20px;
-	clear:both;
-	font-weight:normal;
-	line-height:1.428571429;
-	color:#333;
-	white-space:nowrap;
-}
-.dropdown-clickable:hover {
-	cursor:pointer;
-	background-color:#f5f5f5;
-}
 .sort-by {
 	text-align:right;
 }
@@ -90,14 +74,6 @@
 	position:absolute;
 	right:40px;
 	top:9px;
-}
-.due_date a {
-	border:none;
-	font-size:13px;
-	color:#999;
-}
-.due_date a:hover {
-	color:#3071a9;
 }
 .hideCalendar i {
 	display:none;
