@@ -122,9 +122,12 @@ App.controller('TaskListCtrl', function($scope, $http) {
 			"id" : task.id,
 			"name" : task.name,
 			"completed" : task.completed,
-			"priority" : task.priority,
-			"due_date" : task.due_date
+			"priority" : task.priority
 		};
+		
+		if (task.due_date != "") {
+			data.due_date = task.due_date;
+		}
 
 		$http.post('/api/task/edit', $.param(data), {
 			"headers" : {
