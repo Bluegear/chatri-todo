@@ -29,7 +29,7 @@
 					<i class="priority fa fa-exclamation-circle {{task.priorityClass}}" ng-click="togglePriority(task)"></i>
 					<input type="text" maxlength="42" class="task-input" ng-model="task.displayName" ng-blur="editTaskName(task)" ng-keypress="editTaskNameKeyPress($event, task)"/>
 					<div class="input-append date" datepicker ng-model="task.displayDueDate">
-						<input type="text" class="date-input {{task.dueDateVisibleClass}}" ng-change="editDueDate(task)" ng-model="task.displayDueDate">
+						<input type="text" class="date-input {{task.dueDateVisibleClass}}" ng-change="editDueDate(task)" readonly ng-model="task.displayDueDate">
 						<span class="add-on"><i class="fa fa-calendar {{task.calendarVisibleClass}}"></i></span>
 					</div>
 					<i class="fa fa-trash-o" ng-click=deleteTask(task)></i>
